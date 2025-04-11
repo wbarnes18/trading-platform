@@ -13,15 +13,19 @@ from dotenv import load_dotenv
 import os
 from datetime import datetime, timedelta
 
-# Load .env file
+# Load .env file if it exists
 env_path = os.path.join(os.path.dirname(__file__), '.env')
-print(f"Loading .env file from: {env_path}")
-load_dotenv(env_path)
+print(f"Attempting to load .env file from: {env_path}")
+if os.path.exists(env_path):
+    load_dotenv(env_path)
+    print("Loaded .env file successfully")
+else:
+    print(".env file not found, relying on environment variables")
 
 # Load the NewsAPI key
 newsapi_key = os.getenv("NEWSAPI_KEY")
 if not newsapi_key:
-    print("Error: NEWSAPI_KEY not found in .env file.")
+    print("Error: NEWSAPI_KEY not found in environment variables. Please set it in Render's environment settings.")
     exit(1)
 print(f"Loaded NewsAPI key: {newsapi_key}")
 
@@ -245,4 +249,6 @@ def update_dashboard(selected_stock, n_intervals):
     )
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0", port=8050)
+    # Use the PORT environment variable if set (e.g., on Render), otherwise default to 8050
+    port = int(os.getenv("PORT", 8050))
+    app.run(debug=False, host="0.0.0.0", port=port)
