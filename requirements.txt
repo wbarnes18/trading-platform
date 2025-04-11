@@ -2,7 +2,8 @@ dash
 plotly
 pandas
 yfinance
-pandas_ta
+pandas_ta==0.3.14b0
+numpy==1.26.4
 vaderSentiment
 python-dotenv
 requests
