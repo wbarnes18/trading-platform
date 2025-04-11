@@ -1,0 +1,66 @@
+{
+    "project": {
+      "name": "Trading Platform",
+      "owner": "waynebarnes",
+      "description": "A comprehensive trading platform for SPY, TSLA, and NVDA, designed to provide real-time stock data, technical indicators, news sentiment analysis, and machine learning predictions. The platform is built using Python, Dash, and various APIs, with the goal of being a robust, feature-rich tool for trading insights.",
+      "end_goal": {
+        "overview": "The ultimate goal is to create a live, web-based trading dashboard hosted on Render, accessible from anywhere, that provides a refined and robust experience for monitoring SPY, TSLA, and NVDA. The platform should include real-time stock data, technical indicators (SMA, RSI, MACD), news sentiment analysis (NSMI), machine learning predictions, and additional features like historical prediction accuracy, supply chain signals, and more. The dashboard should be visually appealing, user-friendly, and packed with 'bells and whistles' to make it a top-tier trading tool.",
+        "specific_features": [
+          "Real-time stock data for SPY, TSLA, and NVDA using yfinance, updated every 5 minutes.",
+          "Technical indicators: SMA (20-day), RSI (14-day), MACD (12, 26, 9).",
+          "News sentiment analysis using NewsAPI and VADER, with a custom News Sentiment Momentum Indicator (NSMI) to gauge market sentiment trends.",
+          "Machine learning predictions using Random Forest models (already trained and saved in models/ directory) to predict the next day's price direction (Up/Down).",
+          "Supply chain signals (e.g., Foxconn factory activity with car count, currently a placeholder at 150).",
+          "Historical prediction accuracy to evaluate the ML model's performance over time.",
+          "Additional indicators and features (e.g., volume, lagged returns, alternative ML algorithms like XGBoost) to enhance the platform's insights.",
+          "A polished, dark-themed UI with interactive charts (Price, RSI, MACD, NSMI) and a news feed displaying the latest articles with sentiment scores.",
+          "Robust error handling, logging, and data validation to ensure reliability.",
+          "Scalability to potentially add more stocks or features in the future."
+        ],
+        "deployment": "The platform will be deployed on Render as a web service, using the free tier, with the NewsAPI key set as an environment variable. The app should be accessible via a public URL (e.g., https://trading-platform.onrender.com) and update automatically every 5 minutes."
+      },
+      "current_status": {
+        "overview": "The project is in the final stages before deployment to Render. The core functionality is complete: stock data fetching, technical indicators, news fetching via NewsAPI, NSMI calculation, and ML predictions are working. The Dash app is set up to display the data, but it needs to be tested locally to confirm the news feed and NSMI chart display correctly. The Procfile and requirements.txt are ready for deployment.",
+        "completed_steps": [
+          "Set up the project directory structure: /Users/waynebarnes/trading_platform/ with subdirectories scripts/, data/, models/, and app/.",
+          "Created collect_data.py to fetch stock data (yfinance), compute indicators (SMA, RSI, MACD), fetch news (NewsAPI), and calculate NSMI.",
+          "Created app.py to run a Dash app displaying stock data, technical indicators, news feed, and NSMI chart.",
+          "Trained Random Forest models for SPY, TSLA, and NVDA, saved in models/ directory.",
+          "Integrated NewsAPI with the correct key (6a3af1cf495d4795a17ae5cc2e5a8341), fixed .env file loading issues, and updated from_date to fetch recent news (last 30 days).",
+          "Moved app.py to the root directory (/Users/waynebarnes/trading_platform/) to align with the Procfile command.",
+          "Created and fixed the Procfile (web: gunicorn app:app --timeout 120) by adding a newline to resolve terminal display issues.",
+          "Confirmed the project directory contains: Procfile, app.py, requirements.txt, scripts/, data/, models/, stock_env/, and app/."
+        ],
+        "data_status": {
+          "spy_news.csv": {
+            "description": "Contains news articles for SPY fetched from NewsAPI, with titles, dates, and sentiment scores.",
+            "sample_data": [
+              {"title": "Deep Rock Galactic: Rogue Core gets the gadgets out in a fighty new trailer", "date": "2025-04-10T16:24:37Z", "sentiment": 0.0},
+              {"title": "Every New Movie and TV Show Coming to Prime Video in April 2025", "date": "2025-04-10T16:06:39Z", "sentiment": 0.0},
+              {"title": "Russia frees ballerina in prisoner swap with US", "date": "2025-04-10T15:54:14Z", "sentiment": -0.3182}
+            ],
+            "notes": "Articles are from April 10, 2025, within the expected range (March 12, 2025, to April 11, 2025). However, titles may not be directly relevant to SPY (S&P 500 ETF) due to the query q=SPY matching 'spy' in other contexts (e.g., espionage). Consider refining the query (e.g., q=\"SPY stock\" OR \"S&P 500 ETF\") in the future."
+          },
+          "spy_nsmi.csv": {
+            "description": "Contains the News Sentiment Momentum Indicator (NSMI) for SPY, calculated from daily average sentiment.",
+            "sample_data": [
+              {"date": "2025-04-10", "sentiment": 0.0063, "sentiment_momentum": null, "NSMI": 0.0}
+            ],
+            "notes": "NSMI is 0 because there’s only one day of data (April 10, 2025), so the 5-day momentum cannot be computed. This is expected behavior. As more days of news data are collected, NSMI will show meaningful values."
+          }
+        },
+        "next_steps": [
+          "Test the Dash app locally by running `python app.py` and opening http://127.0.0.1:8050/. Confirm the news feed displays articles (e.g., 'Deep Rock Galactic: Rogue Core gets the gadgets out...') with sentiment scores, and the NSMI chart shows a flat line at 0 for April 10, 2025. Verify other charts (Price, RSI, MACD) and stock switching (SPY, TSLA, NVDA).",
+          "Push the project to GitHub: initialize a Git repository, commit all files, and push to a new GitHub repo (e.g., trading-platform).",
+          "Deploy to Render: create a new web service, connect the GitHub repo, set the build command (`pip install -r requirements.txt`), start command (`gunicorn app:app --timeout 120`), and add the NewsAPI key as an environment variable (NEWSAPI_KEY=6a3af1cf495d4795a17ae5cc2e5a8341).",
+          "Test the live app on Render: confirm the news feed, NSMI chart, and other features work as expected.",
+          "Future enhancements: refine the NewsAPI query for better relevance, improve sentiment analysis for more varied NSMI values, add historical prediction accuracy, incorporate more features (e.g., volume, lagged returns, XGBoost), and enhance the UI with additional bells and whistles."
+        ]
+      },
+      "notes": {
+        "owner_preferences": "waynebarnes has emphasized a refined and robust platform with all the bells and whistles, indicating a desire for a feature-rich, polished, and reliable trading tool. The focus is on real-time data, comprehensive insights (technical indicators, news sentiment, ML predictions), and a user-friendly, visually appealing UI. The project should be thoroughly tested at each step to avoid mistakes, with a preference for one-step-at-a-time progress to ensure clarity and accuracy.",
+        "current_date": "April 11, 2025",
+        "last_interaction": "waynebarnes confirmed the Procfile fix (newline added, % removed from terminal output) and shared the latest spy_news.csv and spy_nsmi.csv data. The project is ready for local Dash app testing before deployment to Render."
+      }
+    }
+  }
