@@ -78,6 +78,6 @@ app.layout = html.Div(
 def update_dashboard(selected_stock, n_intervals):
     # Your callback code here
 
-if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8050))
-    app.run(debug=False, host="0.0.0.0", port=port)
+    if __name__ == "__main__":
+        port = int(os.getenv("PORT", 8050))
+        app.run(debug=False, host="0.0.0.0", port=port)
